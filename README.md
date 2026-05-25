@@ -81,6 +81,7 @@ R307 Fingerprint Sensor	1	Optional (UART)
 Active Buzzer	1	For tamper/key feedback
 Jumper Wires & Breadboard	Many	Prototyping
 Power Supply	1	12V DC / 5V USB / Li‑ion
+
 💻 Software Stack
 Layer	Technology
 Firmware	C++ (Arduino Framework / PlatformIO)
