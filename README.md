@@ -1,36 +1,92 @@
-**Smart Door Lock**
-An intelligent, secure, and scalable smart door lock system designed for modern access control. This project integrates embedded hardware (ESP32/Arduino) with a backend server and mobile/web interface to provide keyless entry, user management, and audit trails.
+🔒 Smart Door Lock System
+<p align="center"> <img src="https://img.shields.io/badge/Platform-ESP32-blue?style=for-the-badge"> <img src="https://img.shields.io/badge/Language-C%2B%2B%20(Arduino)-orange?style=for-the-badge"> <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge"> <img src="https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge"> </p><p align="center"> <b>A Secure Multi‑Factor IoT Door Lock with Remote Access & Real‑time Logging</b> </p>
+📌 Project Overview
+The Smart Door Lock System is an advanced embedded security solution that replaces traditional keys with multiple authentication methods. Built around an ESP32, it integrates RFID, PIN keypad, fingerprint sensor, and remote controls via Wi-Fi/BLE.
 
-Key Features
-Multi‑factor authentication – PIN code, RFID/NFC tags, fingerprint sensor (optional), and one‑time passwords (OTP).
+This system provides:
 
-Remote access control – Lock/unlock via smartphone app or web dashboard over Wi-Fi/Bluetooth.
+✅ Multi‑factor authentication (PIN + RFID + Fingerprint)
+✅ Remote lock/unlock from mobile App or Web
+✅ Real‑time access logs & tamper alerts
+✅ Low‑power operation for battery backup
+✅ Expandable user management (temporary access codes)
 
-Real‑time activity logging – Timestamped records of all access attempts (successful/failed), user ID, and method used.
+🧠 Core Architecture
+The system is built on a central ESP32 controller interfaced with multiple input/output modules:
 
-User management – Add/remove users, assign credentials, set temporary access schedules.
+Module	Function
+🖥 ESP32 Main Board	Decision logic & communication
+🔢 4×4 Matrix Keypad	PIN entry
+🆔 RFID Reader (MFRC522)	Card / tag authentication
+👆 Fingerprint Sensor (R307)	Biometric verification
+🔐 Solenoid/Deadbolt	Physical lock actuator
+📡 Wi-Fi / BLE	Remote access & notifications
+📡 Communication Flow
+text
+                    ┌──────────────────────────┐
+                    │     User / Mobile App     │
+                    └────────────┬─────────────┘
+                                 │ (HTTPS / MQTT / BLE)
+                    ┌────────────▼─────────────┐
+                    │   ESP32 Main Controller  │
+                    └────┬──────────────┬──────┘
+                         │              │
+    ┌────────────────────▼──┐      ┌────▼─────────────────┐
+    │ Local Authentication  │      │ Remote Cloud / MQTT  │
+    │ - Keypad              │      │ - AWS IoT / Firebase │
+    │ - RFID                │      │ - Push notifications │
+    │ - Fingerprint         │      │ - Web Dashboard      │
+    └────────────────────┬──┘      └────┬─────────────────┘
+                         │              │
+                    ┌────▼──────────────▼────┐
+                    │   Lock Actuator (GPIO) │
+                    └────────────────────────┘
+⚙️ Key Features
+🔐 Secure Authentication
+PIN code (4–8 digits, encrypted storage)
 
-Low‑power design – Deep‑sleep modes (<10 µA) and wake‑on‑interrupt for battery‑powered operation.
+RFID/NFC (Mifare classic/Ultralight)
 
-Secure communication – TLS/HTTPS for cloud APIs, encrypted BLE pairing, and local key storage in secure element (optional).
+Fingerprint (optional, up to 100 fingers)
 
-Tamper detection & alerts – Push notifications for unauthorised enclosure opening or brute‑force attempts.
+One‑Time Passwords (TOTP via Google Authenticator)
 
-Hardware Stack
-Component	Recommendation
-Microcontroller	ESP32‑S3 (Wi‑Fi + BLE)
-Keypad	4×4 membrane matrix
-RFID Reader	MFRC522 (13.56 MHz)
-Fingerprint Sensor	GT‑511C1R or R307
-Lock Actuator	12V solenoid / servo / deadbolt
-Power	Li‑ion battery + TP4056 charger
-Software Stack
-Firmware: C++ (PlatformIO / Arduino IDE)
+📱 Remote Access
+Mobile App (React Native) – lock/unlock, view logs
 
-Backend: Node.js / Python (Flask) + PostgreSQL / MongoDB
+Web Dashboard – user management, access schedules
 
-Frontend: React Native (mobile) & React (dashboard)
+Voice control (Alexa / Google Assistant – optional)
 
-Communication: MQTT (AWS IoT Core / Mosquitto) or REST API + WebSockets
+📊 Logging & Alerts
+Timestamped access attempts (success/failed, method, user ID)
 
-Security: AES‑256 for local credentials, JWT for API auth, TLS 1.2+
+Real‑time Telegram / email notifications
+
+Tamper detection – buzzer + cloud alert
+
+🔋 Low‑Power Design
+Deep‑sleep mode (<10 µA) with wake‑on‑keypad/RFID
+
+Battery operation with solar charging option
+
+🛠 Hardware Components
+Component	Quantity	Notes
+ESP32 Dev Module	1	With Wi-Fi & BLE
+4×4 Matrix Keypad	1	Membrane type
+MFRC522 RFID Reader	1	13.56 MHz
+R307 Fingerprint Sensor	1	Optional (UART)
+12V Solenoid / Servo	1	For deadbolt
+5V Relay Module	1	To drive solenoid
+Active Buzzer	1	For tamper/key feedback
+Jumper Wires & Breadboard	Many	Prototyping
+Power Supply	1	12V DC / 5V USB / Li‑ion
+💻 Software Stack
+Layer	Technology
+Firmware	C++ (Arduino Framework / PlatformIO)
+Communication	MQTT (Mosquitto) / HTTPS (REST API)
+Backend	Node.js / Python (Flask)
+Database	PostgreSQL / Firebase Firestore
+Mobile App	React Native (Expo)
+Web Dashboard	React + Chart.js
+Security	AES‑256 (credentials), TLS 1.2, JWT
